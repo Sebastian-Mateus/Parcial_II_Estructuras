@@ -1,11 +1,10 @@
-# parcial3
+# Parcial_II_Estructuras
 
-Descripciín basisca de su Proyecto de POO ...
+Descripción básica de su Proyecto de POO ...
 
 # Autores
 
-- Autor 1
-- Autor 2
+- Sebastian Mateus
 
 # Herramientas
 
@@ -20,22 +19,3 @@ Para compilar el proyecto puede usar el comando:
 
 ```shell
 mvn clean compile
-```
-
-Para ejecutar las pruebas puede usar el comando: 
-
-```shell
- mvn clean test
-```
-
-Para generar el jar puede usar el comando: 
-
-```shell
- mvn clean package
-```
-
-y para ejecutar el jar
-
-```shell
- java -jar target/parcial3-1.0.jar
-```
