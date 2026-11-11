@@ -1,4 +1,7 @@
-class Nodo<T> {
+package co.edu.uniquindio.poo;
+
+public class Nodo<T> {
+
     private T valor;
     private Nodo<T> siguiente;
  
