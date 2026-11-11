@@ -4,8 +4,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class ParcialII {
- 
-      // Devuelve una pila nueva con las n operaciones confirmadas mas recientes.
+  // Devuelve una pila nueva con las n operaciones confirmadas mas recientes.
     // La pila original queda igual que al principio.
     public static Stack<Operacion> obtenerUltimasConfirmadas(Stack<Operacion> historial, int n) {
         Stack<Operacion> resultado = new Stack<Operacion>();
@@ -15,7 +14,7 @@ public class ParcialII {
             return resultado;
         }
  
-        // Aqui guardamos lo que sacamos del historial para poder devolverlo despues
+        // Aqui se guarda lo que se saca del historial para poder devolverlo despues
         Stack<Operacion> pilaRespaldo = new Stack<Operacion>();
  
         // Aqui van las confirmadas, pero quedan al reves (la mas reciente abajo)
@@ -23,27 +22,27 @@ public class ParcialII {
  
         int cantidadEncontradas = 0;
  
-        // Recorremos todo el historial desde el tope (la operacion mas reciente)
+        // Se recorre todo el historial desde el tope (la operacion mas reciente)
         while (!historial.isEmpty()) {
             Operacion operacionActual = historial.pop();
  
-            // Guardamos una copia en el respaldo para no perderla
+            // Se guarda una copia en el respaldo para no perderla
             pilaRespaldo.push(operacionActual);
  
-            // Solo nos sirve si esta confirmada y todavia no llegamos a n
+            // Solo sirve si esta confirmada y todavia no se llega a n
             if (operacionActual.estaConfirmada() && cantidadEncontradas < n) {
                 pilaConfirmadasAlReves.push(operacionActual);
                 cantidadEncontradas++;
             }
         }
  
-        // Devolvemos todo al historial. Como el respaldo quedo invertido,
+        // Se devuelve todo al historial. Como el respaldo quedo invertido,
         // al pasarlo otra vez el historial vuelve a su orden original
         while (!pilaRespaldo.isEmpty()) {
             historial.push(pilaRespaldo.pop());
         }
  
-        // Damos vuelta a las confirmadas para que la mas reciente quede en el tope
+        // Se da vuelta a las confirmadas para que la mas reciente quede en el tope
         while (!pilaConfirmadasAlReves.isEmpty()) {
             resultado.push(pilaConfirmadasAlReves.pop());
         }
@@ -61,24 +60,24 @@ public class ParcialII {
     public static Stack<String> obtenerSegmento(Stack<String> historial, int inicio, int fin) {
         Stack<String> resultado = new Stack<String>();
  
-        // Si las posiciones no tienen sentido devolvemos la pila vacia
+        // Si las posiciones no tienen sentido se devuelve la pila vacia
         if (inicio < 1 || inicio > fin) {
             return resultado;
         }
  
-        // Trabajamos con una copia para no tocar la pila original
+        // Se trabaja con una copia para no tocar la pila original
         Stack<String> copia = historial.clonar();
  
         // Aqui van las acciones del segmento, pero quedan al reves
         Stack<String> segmentoAlReves = new Stack<String>();
  
-        // Vamos contando en que posicion estamos, empezando desde el tope
+        // Se va contando en que posicion esta, empezando desde el tope
         int posicionActual = 1;
  
         while (!copia.isEmpty()) {
             String accionActual = copia.pop();
  
-            // Solo guardamos las acciones que estan dentro del rango
+            // Solo se guardan las acciones que estan dentro del rango
             if (posicionActual >= inicio && posicionActual <= fin) {
                 segmentoAlReves.push(accionActual);
             }
@@ -94,7 +93,7 @@ public class ParcialII {
             return resultado;
         }
  
-        // Damos vuelta al segmento para que la accion de inicio quede en el tope
+        // Se da vuelta al segmento para que la accion de inicio quede en el tope
         while (!segmentoAlReves.isEmpty()) {
             resultado.push(segmentoAlReves.pop());
         }
@@ -152,6 +151,39 @@ public class ParcialII {
         return seleccionadas;
     }
  
+    // ------------------------------------------------------------
+    // EJERCICIO 4a: Contar equipos en un rango
+    // ------------------------------------------------------------
+ 
+    // Cuenta cuantos codigos estan entre limiteInferior y limiteSuperior (incluidos).
+    // Aprovecha el orden del arbol para no revisar los lados que no sirven.
+    public static int contarEquiposEnRango(NodoArbol raiz, int limiteInferior, int limiteSuperior) {
+        // Si no hay arbol o el rango esta al reves, no hay nada que contar
+        if (raiz == null || limiteInferior > limiteSuperior) {
+            return 0;
+        }
+ 
+        int codigoActual = raiz.getValor();
+ 
+        // Si el codigo es menor al limite inferior, todo el lado izquierdo
+        // es todavia mas pequeño, asi que solo se busca por la derecha
+        if (codigoActual < limiteInferior) {
+            return contarEquiposEnRango(raiz.getDerecho(), limiteInferior, limiteSuperior);
+        }
+ 
+        // Si el codigo es mayor al limite superior, todo el lado derecho
+        // es todavia mas grande, asi que solo se busca por la izquierda
+        if (codigoActual > limiteSuperior) {
+            return contarEquiposEnRango(raiz.getIzquierdo(), limiteInferior, limiteSuperior);
+        }
+ 
+        // El codigo esta dentro del rango: cuenta uno y se sigue por los dos lados
+        int equiposIzquierda = contarEquiposEnRango(raiz.getIzquierdo(), limiteInferior, limiteSuperior);
+        int equiposDerecha = contarEquiposEnRango(raiz.getDerecho(), limiteInferior, limiteSuperior);
+ 
+        return 1 + equiposIzquierda + equiposDerecha;
+    }
+ 
     // Imprime una cola desde el frente hasta el final sin dañarla
     public static <T> void mostrarCola(String titulo, Queue<T> cola) {
         System.out.println(titulo + " (de frente a final):");
@@ -169,7 +201,7 @@ public class ParcialII {
             colaAuxiliar.enqueue(elementoActual);
         }
  
-        // Dejamos la cola como estaba
+        // Se deja la cola como estaba
         while (!colaAuxiliar.isEmpty()) {
             cola.enqueue(colaAuxiliar.dequeue());
         }
@@ -192,7 +224,7 @@ public class ParcialII {
             pilaAuxiliar.push(elementoActual);
         }
  
-        // Dejamos la pila como estaba
+        // Se deja la pila como estaba
         while (!pilaAuxiliar.isEmpty()) {
             pila.push(pilaAuxiliar.pop());
         }
@@ -216,7 +248,7 @@ public class ParcialII {
         Stack<Operacion> resultado = obtenerUltimasConfirmadas(historial, 2);
         mostrarPila("Resultado con n = 2", resultado);
  
-        // Verificamos que el historial no cambio
+        // Se verifica que el historial no cambio
         mostrarPila("Historial despues de la funcion", historial);
  
         // Casos especiales
@@ -243,7 +275,7 @@ public class ParcialII {
  
         mostrarPila("Segmento inicio = 2, fin = 4", obtenerSegmento(historial, 2, 4));
  
-        // Verificamos que el historial no cambio
+        // Se verifica que el historial no cambio
         mostrarPila("Historial despues de la funcion", historial);
  
         // Casos especiales
@@ -295,4 +327,56 @@ public class ParcialII {
         mostrarCola("Pendientes despues (100 minutos)", pendientes);
         System.out.println();
     }
+ 
+    // Prueba del ejercicio 4 con los codigos del enunciado
+    public static void probarEjercicio4() {
+        System.out.println("===== EJERCICIO 4 =====");
+ 
+        ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda();
+ 
+        // Arbol vacio
+        System.out.println("Arbol vacio, rango 1 a 100: "
+                + contarEquiposEnRango(arbol.getRaiz(), 1, 100));
+ 
+        // Se insertan los codigos en el mismo orden del enunciado
+        int[] codigos = {50, 30, 70, 20, 40, 60, 80, 55, 65};
+        for (int posicion = 0; posicion < codigos.length; posicion++) {
+            arbol.insertar(codigos[posicion]);
+        }
+ 
+        System.out.print("Recorrido inorden del arbol: ");
+        arbol.imprimirInorden();
+ 
+        // Parte a: consultas por rango
+        System.out.println("Rango 30 a 65 (esperado 6): "
+                + contarEquiposEnRango(arbol.getRaiz(), 30, 65));
+        System.out.println("Rango 56 a 100 (esperado 4): "
+                + contarEquiposEnRango(arbol.getRaiz(), 56, 100));
+        System.out.println("Rango 50 a 50 (esperado 1): "
+                + contarEquiposEnRango(arbol.getRaiz(), 50, 50));
+        System.out.println("Rango 10 a 19 (esperado 0): "
+                + contarEquiposEnRango(arbol.getRaiz(), 10, 19));
+        System.out.println("Rango 1 a 100 (esperado 9): "
+                + contarEquiposEnRango(arbol.getRaiz(), 1, 100));
+        System.out.println("Rango 70 a 20, al reves (esperado 0): "
+                + contarEquiposEnRango(arbol.getRaiz(), 70, 20));
+ 
+        // Parte b: eliminar el 50 usando el predecesor inorden
+        arbol.eliminar(50);
+        System.out.print("Inorden despues de eliminar el 50: ");
+        arbol.imprimirInorden();
+        System.out.println("Nueva raiz: " + arbol.getRaiz().getValor());
+        System.out.println();
+    }
+
+
+
+    public static void main(String[] args) {
+        probarEjercicio1();
+        probarEjercicio2();
+        probarEjercicio3();
+        probarEjercicio4();
+    }
+
+    
 }
