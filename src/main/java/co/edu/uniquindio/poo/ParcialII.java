@@ -4,45 +4,45 @@ import java.util.Queue;
 import java.util.Stack;
 
 public class ParcialII {
-  // Devuelve una pila nueva con las n operaciones confirmadas mas recientes.
+  // PUNTO 1: Depuración del historial de operaciones
+ 
+    // Devuelve una pila nueva con las n operaciones confirmadas más recientes.
     // La pila original queda igual que al principio.
     public static Stack<Operacion> obtenerUltimasConfirmadas(Stack<Operacion> historial, int n) {
-        Stack<Operacion> resultado = new Stack<Operacion>();
+        Stack<Operacion> resultado = new Stack<>();
  
         // Si n no es positivo no hay nada que buscar
         if (n <= 0) {
             return resultado;
         }
  
-        // Aqui se guarda lo que se saca del historial para poder devolverlo despues
-        Stack<Operacion> pilaRespaldo = new Stack<Operacion>();
+        // Aquí se guarda lo que se saca del historial para poder devolverlo después
+        Stack<Operacion> pilaRespaldo = new Stack<>();
  
-        // Aqui van las confirmadas, pero quedan al reves (la mas reciente abajo)
-        Stack<Operacion> pilaConfirmadasAlReves = new Stack<Operacion>();
+        // Aquí van las confirmadas, pero quedan al revés (la más reciente abajo)
+        Stack<Operacion> pilaConfirmadasAlReves = new Stack<>();
  
         int cantidadEncontradas = 0;
  
-        // Se recorre todo el historial desde el tope (la operacion mas reciente)
+        // Se recorre todo el historial desde el tope (la operación más reciente)
         while (!historial.isEmpty()) {
             Operacion operacionActual = historial.pop();
- 
-            // Se guarda una copia en el respaldo para no perderla
             pilaRespaldo.push(operacionActual);
  
-            // Solo sirve si esta confirmada y todavia no se llega a n
+            // Solo sirve si está confirmada y todavía no se llega a n
             if (operacionActual.estaConfirmada() && cantidadEncontradas < n) {
                 pilaConfirmadasAlReves.push(operacionActual);
                 cantidadEncontradas++;
             }
         }
  
-        // Se devuelve todo al historial. Como el respaldo quedo invertido,
+        // Se devuelve todo al historial. Como el respaldo quedó invertido,
         // al pasarlo otra vez el historial vuelve a su orden original
         while (!pilaRespaldo.isEmpty()) {
             historial.push(pilaRespaldo.pop());
         }
  
-        // Se da vuelta a las confirmadas para que la mas reciente quede en el tope
+        // Se da vuelta a las confirmadas para que la más reciente quede en el tope
         while (!pilaConfirmadasAlReves.isEmpty()) {
             resultado.push(pilaConfirmadasAlReves.pop());
         }
@@ -57,9 +57,9 @@ public class ParcialII {
     // Las posiciones se cuentan desde el tope empezando en 1.
     // La pila original queda igual que al principio.
     public static Stack<String> obtenerSegmento(Stack<String> historial, int inicio, int fin) {
-        Stack<String> resultado = new Stack<String>();
+        Stack<String> resultado = new Stack<>();
  
-        // Si las posiciones no tienen sentido se devuelve la pila vacia
+        // Si las posiciones no tienen sentido se devuelve la pila vacía
         if (inicio < 1 || inicio > fin) {
             return resultado;
         }
@@ -67,16 +67,15 @@ public class ParcialII {
         // Se trabaja con una copia para no tocar la pila original
         Stack<String> copia = historial.clonar();
  
-        // Aqui van las acciones del segmento, pero quedan al reves
-        Stack<String> segmentoAlReves = new Stack<String>();
+        // Aquí van las acciones del segmento, pero quedan al revés
+        Stack<String> segmentoAlReves = new Stack<>();
  
-        // Se va contando en que posicion esta, empezando desde el tope
+        // Se va contando en qué posición está, empezando desde el tope
         int posicionActual = 1;
  
         while (!copia.isEmpty()) {
             String accionActual = copia.pop();
  
-            // Solo se guardan las acciones que estan dentro del rango
             if (posicionActual >= inicio && posicionActual <= fin) {
                 segmentoAlReves.push(accionActual);
             }
@@ -87,12 +86,12 @@ public class ParcialII {
         // Al terminar, posicionActual - 1 es la cantidad total de acciones
         int cantidadTotal = posicionActual - 1;
  
-        // Si fin se pasa de la cantidad que hay, el rango no es valido
+        // Si fin se pasa de la cantidad que hay, el rango no es válido
         if (fin > cantidadTotal) {
             return resultado;
         }
  
-        // Se da vuelta al segmento para que la accion de inicio quede en el tope
+        // Se da vuelta al segmento para que la acción de inicio quede en el tope
         while (!segmentoAlReves.isEmpty()) {
             resultado.push(segmentoAlReves.pop());
         }
@@ -101,13 +100,13 @@ public class ParcialII {
     }
  
  
-    // PUNTO 3: Seleccion de solicitudes para una jornada
+    // PUNTO 3: Selección de solicitudes para una jornada
  
     // Devuelve una cola nueva con las solicitudes que caben en los minutos
     // disponibles y las saca de la cola de pendientes.
-    // Primero se revisan las de prioridad alta y despues las normales.
+    // Primero se revisan las de prioridad alta y después las normales.
     public static Queue<Solicitud> seleccionarSolicitudes(Queue<Solicitud> pendientes, int minutosDisponibles) {
-        Queue<Solicitud> seleccionadas = new Queue<Solicitud>();
+        Queue<Solicitud> seleccionadas = new Queue<>();
  
         // Si no hay tiempo no se elige nada y los pendientes quedan igual
         if (minutosDisponibles <= 0) {
@@ -116,8 +115,8 @@ public class ParcialII {
  
         int minutosRestantes = minutosDisponibles;
  
-        // Aqui quedan las solicitudes que no se eligieron en la primera vuelta
-        Queue<Solicitud> quedanPorRevisar = new Queue<Solicitud>();
+        // Aquí quedan las solicitudes que no se eligieron en la primera vuelta
+        Queue<Solicitud> quedanPorRevisar = new Queue<>();
  
         // Primera vuelta: solo se eligen las de prioridad alta que quepan
         while (!pendientes.isEmpty()) {
@@ -152,45 +151,48 @@ public class ParcialII {
  
     // PUNTO 4a: Contar equipos en un rango
  
-    // Cuenta cuantos codigos estan entre limiteInferior y limiteSuperior (incluidos).
-    // Aprovecha el orden del arbol para no revisar los lados que no sirven.
+    // Cuenta cuántos códigos están entre limiteInferior y limiteSuperior (incluidos).
+    // Aprovecha el orden del árbol para no revisar los lados que no sirven.
     public static int contarEquiposEnRango(NodoArbol raiz, int limiteInferior, int limiteSuperior) {
-        // Si no hay arbol o el rango esta al reves, no hay nada que contar
+        // Si no hay árbol o el rango está al revés, no hay nada que contar
         if (raiz == null || limiteInferior > limiteSuperior) {
             return 0;
         }
  
         int codigoActual = raiz.getValor();
  
-        // Si el codigo es menor al limite inferior, todo el lado izquierdo
-        // es todavia mas pequeño, asi que solo se busca por la derecha
+        // Si el código es menor al límite inferior, todo el lado izquierdo
+        // es todavía más pequeño, así que solo se busca por la derecha
         if (codigoActual < limiteInferior) {
             return contarEquiposEnRango(raiz.getDerecho(), limiteInferior, limiteSuperior);
         }
  
-        // Si el codigo es mayor al limite superior, todo el lado derecho
-        // es todavia mas grande, asi que solo se busca por la izquierda
+        // Si el código es mayor al límite superior, todo el lado derecho
+        // es todavía más grande, así que solo se busca por la izquierda
         if (codigoActual > limiteSuperior) {
             return contarEquiposEnRango(raiz.getIzquierdo(), limiteInferior, limiteSuperior);
         }
  
-        // El codigo esta dentro del rango: cuenta uno y se sigue por los dos lados
+        // El código está dentro del rango: cuenta uno y se sigue por los dos lados
         int equiposIzquierda = contarEquiposEnRango(raiz.getIzquierdo(), limiteInferior, limiteSuperior);
         int equiposDerecha = contarEquiposEnRango(raiz.getDerecho(), limiteInferior, limiteSuperior);
  
         return 1 + equiposIzquierda + equiposDerecha;
     }
  
+ 
+    // MÉTODOS DE AYUDA PARA LAS PRUEBAS
+ 
     // Imprime una cola desde el frente hasta el final sin dañarla
     public static <T> void mostrarCola(String titulo, Queue<T> cola) {
         System.out.println(titulo + " (de frente a final):");
  
         if (cola.isEmpty()) {
-            System.out.println("  (vacia)");
+            System.out.println("  (vacía)");
             return;
         }
  
-        Queue<T> colaAuxiliar = new Queue<T>();
+        Queue<T> colaAuxiliar = new Queue<>();
  
         while (!cola.isEmpty()) {
             T elementoActual = cola.dequeue();
@@ -209,11 +211,11 @@ public class ParcialII {
         System.out.println(titulo + " (de tope a fondo):");
  
         if (pila.isEmpty()) {
-            System.out.println("  (vacia)");
+            System.out.println("  (vacía)");
             return;
         }
  
-        Stack<T> pilaAuxiliar = new Stack<T>();
+        Stack<T> pilaAuxiliar = new Stack<>();
  
         while (!pila.isEmpty()) {
             T elementoActual = pila.pop();
@@ -227,13 +229,28 @@ public class ParcialII {
         }
     }
  
+    // Arma la cola de pendientes del ejemplo del enunciado
+    public static Queue<Solicitud> crearPendientesEjemplo() {
+        Queue<Solicitud> pendientes = new Queue<>();
+ 
+        pendientes.enqueue(new Solicitud("S1", PrioridadSolicitud.NORMAL, 10));
+        pendientes.enqueue(new Solicitud("S2", PrioridadSolicitud.ALTA, 30));
+        pendientes.enqueue(new Solicitud("S3", PrioridadSolicitud.ALTA, 15));
+        pendientes.enqueue(new Solicitud("S4", PrioridadSolicitud.NORMAL, 5));
+ 
+        return pendientes;
+    }
+ 
+ 
+    // PRUEBAS
+ 
     // Prueba del punto 1 con el ejemplo del enunciado
     public static void probarPunto1() {
         System.out.println("===== PUNTO 1 =====");
  
-        Stack<Operacion> historial = new Stack<Operacion>();
+        Stack<Operacion> historial = new Stack<>();
  
-        // Se apila del fondo al tope, asi 05 queda de ultimo (en el tope)
+        // Se apila del fondo al tope, así 05 queda de último (en el tope)
         historial.push(new Operacion(1, EstadoOperacion.ANULADA));
         historial.push(new Operacion(2, EstadoOperacion.CONFIRMADA));
         historial.push(new Operacion(3, EstadoOperacion.CONFIRMADA));
@@ -245,10 +262,9 @@ public class ParcialII {
         Stack<Operacion> resultado = obtenerUltimasConfirmadas(historial, 2);
         mostrarPila("Resultado con n = 2", resultado);
  
-        // Se verifica que el historial no cambio
-        mostrarPila("Historial despues de la funcion", historial);
+        // Se verifica que el historial no cambió
+        mostrarPila("Historial después de la función", historial);
  
-        // Casos especiales
         mostrarPila("Resultado con n = 10 (hay menos)", obtenerUltimasConfirmadas(historial, 10));
         mostrarPila("Resultado con n = 0", obtenerUltimasConfirmadas(historial, 0));
         System.out.println();
@@ -258,9 +274,9 @@ public class ParcialII {
     public static void probarPunto2() {
         System.out.println("===== PUNTO 2 =====");
  
-        Stack<String> historial = new Stack<String>();
+        Stack<String> historial = new Stack<>();
  
-        // Se apila del fondo al tope, asi A6 queda en el tope
+        // Se apila del fondo al tope, así A6 queda en el tope
         historial.push("A1");
         historial.push("A2");
         historial.push("A3");
@@ -272,10 +288,8 @@ public class ParcialII {
  
         mostrarPila("Segmento inicio = 2, fin = 4", obtenerSegmento(historial, 2, 4));
  
-        // Se verifica que el historial no cambio
-        mostrarPila("Historial despues de la funcion", historial);
+        mostrarPila("Historial después de la función", historial);
  
-        // Casos especiales
         mostrarPila("Segmento inicio = 3, fin = 3 (una sola)", obtenerSegmento(historial, 3, 3));
         mostrarPila("Segmento inicio = 1, fin = 6 (todo)", obtenerSegmento(historial, 1, 6));
         mostrarPila("Segmento inicio = 0, fin = 3", obtenerSegmento(historial, 0, 3));
@@ -284,64 +298,50 @@ public class ParcialII {
         System.out.println();
     }
  
-    // Arma la cola de pendientes del ejemplo del enunciado
-    public static Queue<Solicitud> crearPendientesEjemplo() {
-        Queue<Solicitud> pendientes = new Queue<Solicitud>();
- 
-        pendientes.enqueue(new Solicitud("S1", PrioridadSolicitud.NORMAL, 10));
-        pendientes.enqueue(new Solicitud("S2", PrioridadSolicitud.ALTA, 30));
-        pendientes.enqueue(new Solicitud("S3", PrioridadSolicitud.ALTA, 15));
-        pendientes.enqueue(new Solicitud("S4", PrioridadSolicitud.NORMAL, 5));
- 
-        return pendientes;
-    }
- 
     // Prueba del punto 3 con el ejemplo del enunciado
     public static void probarPunto3() {
         System.out.println("===== PUNTO 3 =====");
  
-        // Ejemplo del enunciado: 25 minutos
         Queue<Solicitud> pendientes = crearPendientesEjemplo();
         mostrarCola("Pendientes originales", pendientes);
  
+        // Ejemplo del enunciado: 25 minutos
         Queue<Solicitud> seleccionadas = seleccionarSolicitudes(pendientes, 25);
         mostrarCola("Seleccionadas con 25 minutos", seleccionadas);
-        mostrarCola("Pendientes despues de seleccionar", pendientes);
+        mostrarCola("Pendientes después de seleccionar", pendientes);
  
         // Sin tiempo: no se elige nada y los pendientes no cambian
         pendientes = crearPendientesEjemplo();
         mostrarCola("Seleccionadas con 0 minutos", seleccionarSolicitudes(pendientes, 0));
-        mostrarCola("Pendientes despues (0 minutos)", pendientes);
+        mostrarCola("Pendientes después (0 minutos)", pendientes);
  
-        // Tiempo negativo
         pendientes = crearPendientesEjemplo();
         mostrarCola("Seleccionadas con -5 minutos", seleccionarSolicitudes(pendientes, -5));
-        mostrarCola("Pendientes despues (-5 minutos)", pendientes);
+        mostrarCola("Pendientes después (-5 minutos)", pendientes);
  
         // Mucho tiempo: se eligen todas, primero las altas y luego las normales
         pendientes = crearPendientesEjemplo();
         mostrarCola("Seleccionadas con 100 minutos", seleccionarSolicitudes(pendientes, 100));
-        mostrarCola("Pendientes despues (100 minutos)", pendientes);
+        mostrarCola("Pendientes después (100 minutos)", pendientes);
         System.out.println();
     }
  
-    // Prueba del punto 4 con los codigos del enunciado
+    // Prueba del punto 4 con los códigos del enunciado
     public static void probarPunto4() {
         System.out.println("===== PUNTO 4 =====");
  
         ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda();
  
-        // Arbol vacio
-        System.out.println("Arbol vacio, rango 1 a 100: "
+        System.out.println("Árbol vacío, rango 1 a 100: "
                 + contarEquiposEnRango(arbol.getRaiz(), 1, 100));
  
-        // Se insertan los codigos en el mismo orden del enunciado
+        // Se insertan los códigos en el mismo orden del enunciado
         int[] codigos = {50, 30, 70, 20, 40, 60, 80, 55, 65};
         for (int posicion = 0; posicion < codigos.length; posicion++) {
             arbol.insertar(codigos[posicion]);
         }
  
-        System.out.print("Recorrido inorden del arbol: ");
+        System.out.print("Recorrido inorden del árbol: ");
         arbol.imprimirInorden();
  
         // Parte a: consultas por rango
@@ -355,14 +355,14 @@ public class ParcialII {
                 + contarEquiposEnRango(arbol.getRaiz(), 10, 19));
         System.out.println("Rango 1 a 100 (esperado 9): "
                 + contarEquiposEnRango(arbol.getRaiz(), 1, 100));
-        System.out.println("Rango 70 a 20, al reves (esperado 0): "
+        System.out.println("Rango 70 a 20, al revés (esperado 0): "
                 + contarEquiposEnRango(arbol.getRaiz(), 70, 20));
  
         // Parte b: eliminar el 50 usando el predecesor inorden
         arbol.eliminar(50);
-        System.out.print("Inorden despues de eliminar el 50: ");
+        System.out.print("Inorden después de eliminar el 50: ");
         arbol.imprimirInorden();
-        System.out.println("Nueva raiz: " + arbol.getRaiz().getValor());
+        System.out.println("Nueva raíz: " + arbol.getRaiz().getValor());
         System.out.println();
     }
  
