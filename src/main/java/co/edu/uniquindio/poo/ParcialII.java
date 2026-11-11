@@ -50,9 +50,8 @@ public class ParcialII {
         return resultado;
     }
  
-    // ------------------------------------------------------------
-    // EJERCICIO 2: Obtener un segmento del historial
-    // ------------------------------------------------------------
+ 
+    // PUNTO 2: Obtener un segmento del historial
  
     // Devuelve una pila nueva con las acciones entre inicio y fin (incluidos).
     // Las posiciones se cuentan desde el tope empezando en 1.
@@ -101,9 +100,8 @@ public class ParcialII {
         return resultado;
     }
  
-    // ------------------------------------------------------------
-    // EJERCICIO 3: Seleccion de solicitudes para una jornada
-    // ------------------------------------------------------------
+ 
+    // PUNTO 3: Seleccion de solicitudes para una jornada
  
     // Devuelve una cola nueva con las solicitudes que caben en los minutos
     // disponibles y las saca de la cola de pendientes.
@@ -151,9 +149,8 @@ public class ParcialII {
         return seleccionadas;
     }
  
-    // ------------------------------------------------------------
-    // EJERCICIO 4a: Contar equipos en un rango
-    // ------------------------------------------------------------
+ 
+    // PUNTO 4a: Contar equipos en un rango
  
     // Cuenta cuantos codigos estan entre limiteInferior y limiteSuperior (incluidos).
     // Aprovecha el orden del arbol para no revisar los lados que no sirven.
@@ -230,9 +227,9 @@ public class ParcialII {
         }
     }
  
-    // Prueba del ejercicio 1 con el ejemplo del enunciado
-    public static void probarEjercicio1() {
-        System.out.println("===== EJERCICIO 1 =====");
+    // Prueba del punto 1 con el ejemplo del enunciado
+    public static void probarPunto1() {
+        System.out.println("===== PUNTO 1 =====");
  
         Stack<Operacion> historial = new Stack<Operacion>();
  
@@ -257,9 +254,9 @@ public class ParcialII {
         System.out.println();
     }
  
-    // Prueba del ejercicio 2 con el ejemplo del enunciado
-    public static void probarEjercicio2() {
-        System.out.println("===== EJERCICIO 2 =====");
+    // Prueba del punto 2 con el ejemplo del enunciado
+    public static void probarPunto2() {
+        System.out.println("===== PUNTO 2 =====");
  
         Stack<String> historial = new Stack<String>();
  
@@ -299,9 +296,9 @@ public class ParcialII {
         return pendientes;
     }
  
-    // Prueba del ejercicio 3 con el ejemplo del enunciado
-    public static void probarEjercicio3() {
-        System.out.println("===== EJERCICIO 3 =====");
+    // Prueba del punto 3 con el ejemplo del enunciado
+    public static void probarPunto3() {
+        System.out.println("===== PUNTO 3 =====");
  
         // Ejemplo del enunciado: 25 minutos
         Queue<Solicitud> pendientes = crearPendientesEjemplo();
@@ -328,9 +325,9 @@ public class ParcialII {
         System.out.println();
     }
  
-    // Prueba del ejercicio 4 con los codigos del enunciado
-    public static void probarEjercicio4() {
-        System.out.println("===== EJERCICIO 4 =====");
+    // Prueba del punto 4 con los codigos del enunciado
+    public static void probarPunto4() {
+        System.out.println("===== PUNTO 4 =====");
  
         ArbolBinarioBusqueda arbol = new ArbolBinarioBusqueda();
  
@@ -368,15 +365,12 @@ public class ParcialII {
         System.out.println("Nueva raiz: " + arbol.getRaiz().getValor());
         System.out.println();
     }
-
-
-
+ 
     public static void main(String[] args) {
-        probarEjercicio1();
-        probarEjercicio2();
-        probarEjercicio3();
-        probarEjercicio4();
+        probarPunto1();
+        probarPunto2();
+        probarPunto3();
+        probarPunto4();
     }
 
-    
 }
